@@ -135,7 +135,7 @@ void setup() {
   tableScreen.colorMode(HSB);
   tableScreen.noStroke();
 
-  myMovie.play();
+  //myMovie.play();
 }
 void keyPressed() {
   switch(key) {
@@ -178,7 +178,6 @@ void keyPressed() {
     listOfInstitues.clear();
     break;
   case 'a': // save camera calibration
-
     saveCalibration();
     println("saved camera calibration");
     break;
@@ -199,6 +198,7 @@ void keyPressed() {
     break;
   case 't':
     state = "tutorial";
+    myMovie.play();
     break;
 
   case 'x':
@@ -280,7 +280,7 @@ void mousePressed() {
   int row = yToRow(int(tableMouse.y));
   if (state.equals("coloring")) {
     //pixelGrid
-    pixelGrid[row][col] = int(random(1, 5));
+    //pixelGrid[row][col] = int(random(1, 5));
   } else if (state.equals("start")) {
     resetTimer();
     pinPos = new PVector(tableMouse.x, tableMouse.y);
@@ -336,7 +336,7 @@ void draw() {
     displayText = "Locate your community by placing the pin [   ] on the map";
     break;
   case "tutorial":
-    
+    tableScreen.image(myMovie, 0,0, tableScreen.width, tableScreen.width*1080/1920);
     //tableScreen.image(coloringTutorial, 0,0,width, width*coloringTutorial.height/coloringTutorial.width);
     //tutorial();
     displayText = "Build up your community with value blocks";
@@ -360,7 +360,7 @@ void draw() {
   default:
   }
   textDisplay(displayText);
-    tableScreen.image(myMovie, 0,0);
+
   tableScreen.endDraw();
 
   surface.render(tableScreen);
@@ -414,7 +414,7 @@ void mapIt() {//for the first stage of experinece //cameron needs to be able to 
       }
       if (abs(mapScale - targetScale) <0.1) {
         state = "tutorial";
-        //myMovie.play();
+        myMovie.play();
         displayText = "Place building blocks of the values you want to grow in your community";
       }
     }

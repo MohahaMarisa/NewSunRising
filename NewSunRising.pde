@@ -69,7 +69,7 @@ PImage skyBackground; //used for the poster
 PImage coloringTutorial;
 
 String state = "projectorCalibration"; //what step in the experience?
-//String state = "coloring"; //what step in the experience?
+
 String buttonState = "button number";// global button state to compare against 
 Serial buttonPort;
 // On the Raspberry Pi GPIO 4 is physical pin 7 on the header
@@ -115,7 +115,7 @@ void setup() {
   //GPIO.pinMode(4, GPIO.INPUT_PULLUP);
 
   pinPos = new PVector(-10, -10); //for now until it's put down, it';s negative
-  setupMarkerDict();
+  
   coloringTutorial = loadImage("coloring.png");
   pittsburghImage = loadImage("pittsburgh.jpg");
   skyBackground = loadImage("background.png"); //
@@ -135,7 +135,7 @@ void setup() {
   tableScreen.colorMode(HSB);
   tableScreen.noStroke();
 
-  myMovie.play();
+  //myMovie.play();
 }
 void keyPressed() {
   switch(key) {
@@ -207,31 +207,6 @@ void keyPressed() {
     printScene.save("posterx.jpg");
     break;
   }
-}
-
-
-void setupMarkerDict() { //idk, probably don't need
-  markerBuildings = new IntDict();
-  markerBuildings.set("pin", 100);
-  markerBuildings.set("somethingCenter", 1);
-  markerBuildings.set("communityCenter", 2);
-  markerBuildings.set("", 3);
-  markerBuildings.set("", 4);
-  markerBuildings.set("", 5);
-  markerBuildings.set("", 6);
-  markerBuildings.set("", 7);
-  markerBuildings.set("", 8);
-  markerBuildings.set("", 9);
-  markerBuildings.set("", 10);
-  markerBuildings.set("", 11);
-  markerBuildings.set("", 12);
-  markerBuildings.set("", 13);
-  markerBuildings.set("", 14);
-  markerBuildings.set("", 15);
-  markerBuildings.set("", 16);
-  markerBuildings.set("", 17);
-  markerBuildings.set("", 18);
-  markerBuildings.set("", 19);
 }
 
 void setupButton() {
@@ -365,7 +340,6 @@ void draw() {
 
   surface.render(tableScreen);
   
-
 }
 
 void textDisplay(String words) { //this is the bottom area underneath the grid
@@ -448,7 +422,6 @@ void defaultScreen() {//
   tableScreen.text("TOGETHER", tableScreen.width/2, tableScreen.height*0.5);
 }
 void movieEvent(Movie m) {
-  print("moiveFrame");
   m.read();
 }
 void tutorial() {//flash random color squares onto the grid

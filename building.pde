@@ -30,7 +30,9 @@ class Building{
     //the text always starts at the center of the building
     textPos = centerOfBuilding;
   }
-  
+  void setTextTarget() {
+    //look for an empty spot in the front of the building
+  }
   void setOrgName(){  //grabs the global pinPos which is rol and col
     for(int i = 0; i < initiatives.getRowCount(); i++){
       

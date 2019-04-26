@@ -12,18 +12,10 @@ void readGridToObjs(int[][] board) {
         //print(result);
         print( "!~!" + board[row][col]+  "!~!");
         println(result.getString("Name"));
-        
       }
     }
   }
 }
-
-
-
-
-
-
-
 
 int[][] rotateGrid(int[][] gridArray, char rotation) {
   int [][] newGrid = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};

@@ -43,14 +43,33 @@ class Building {
     //the text always starts at the center of the building
     textPos = centerOfBuilding;
   }
-
-  void setOrgName() {  //grabs the global pinPos which is rol and col
-    for (int i = 0; i < initiatives.getRowCount(); i++) {
-
-      TableRow currentRow = initiatives.getRow(i);
-      String firstNameMatch = currentRow.getString("Organization or Project Name");
-      if (!this.alreadyDisplayed(firstNameMatch)) {
-        NSRorgName = firstNameMatch;
+  void setTextTarget() {
+    //look for an empty spot in the front of the building
+  }
+  void setOrgName(){  //grabs the global pinPos which is rol and col
+    for(int i = 0; i < initiatives.getRowCount(); i++){
+      
+       TableRow currentRow = initiatives.getRow(i);
+       String firstNameMatch = currentRow.getString("Organization or Project Name");
+       if(!this.alreadyDisplayed(firstNameMatch)){
+         NSRorgName = firstNameMatch; 
+       }
+     }
+  }
+  void setValueToColor(){
+  //COLOR CHANGES
+     switch(this.NSRvalue) {
+          case "culture":
+            this.NSRcolor = color(255, 225, 200);//orange
+           break;
+          case "sustainability":
+            this.NSRcolor = color(200, 255, 200); //green
+            break;
+          case "blue":
+            this.NSRcolor = color(200, 200, 255); //blue for opportunity
+            break;
+          default:
+            break;
       }
     }
   }

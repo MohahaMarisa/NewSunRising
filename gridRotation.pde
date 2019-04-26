@@ -12,7 +12,6 @@ void readGridToObjs(int[][] board) {
         //print(result);
         print( "!~!" + board[row][col]+  "!~!");
         println(result.getString("Name"));
-        
       }
     }
   }

@@ -44,6 +44,19 @@ class Building {
     textPos = centerOfBuilding;
   }
   void setTextTarget() {
+    int offset = -1;
+    switch(this.radianOrientation){
+      case 0: //
+        break;
+      case PI/2;
+        break;
+      case PI:
+        break;
+      case 3*PI/2:
+        break;
+      default:
+        break;
+    }
     float unit = tableScreen.width/projectorGridCols;
     //look for an empty spot in the front of the building
     float pixelCenterX = colToX(int(centerOfBuilding.y));
@@ -51,12 +64,12 @@ class Building {
     
     float x = pixelCenterX + unit/2; 
     float y = pixelCenterY + unit;
-    if(footprint[2][1] == 0){ //if in front is empty
+    if(footprint[1 + offset][1] == 0){ //if in front is empty
       y = pixelCenterY + unit;
-    }else if(footprint[2][1] == 1){
+    }else if(footprint[0][1] == 1){
       textTarget = PVector(centerOfBuilding.x, centerofBuilding.y + 2*gridWidth);
     }
-    if(footprint[1][0] == footprint[1][2]){//3 wide building or 1 wide
+    if(footprint[1 + offset][0] == footprint[1][2]){//3 wide building or 1 wide
       x = pixelCenterX;
     }
     this.textTarget = PVector(x,y);

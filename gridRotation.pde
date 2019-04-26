@@ -18,13 +18,6 @@ void readGridToObjs(int[][] board) {
   }
 }
 
-
-
-
-
-
-
-
 int[][] rotateGrid(int[][] gridArray, char rotation) {
   int [][] newGrid = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
   int gridLen = gridArray[0].length;

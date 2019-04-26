@@ -12,61 +12,6 @@ int[] markerFloorPlanMap = stringIntToIntArray("3,0,0,0,1,3,0,0,1,0,1,0,0,3,2,0,
 ArrayList<TuioObject> listOfMarkers   = new ArrayList<TuioObject>();
 ArrayList<pixelBox>   listOfInstitues = new ArrayList<pixelBox>();
 
-
-
-int[][][] floorTypes = {
-
-  // [ 0 ] oneXone
-  {
-    {0, 0, 0}, 
-    {0, 1, 0}, 
-    {0, 0, 0}
-
-  }, 
-
-  // [ 1 ] oneXtwo
-  {
-    {0, 0, 0}, 
-    {1, 1, 0}, 
-    {0, 0, 0}
-
-  }, 
-
-  // [ 2 ] oneXthree
-  {
-    {0, 0, 0}, 
-    {1, 1, 1}, 
-    {0, 0, 0}
-
-  }, 
-
-  // [ 3 ] twoXtwo
-  {
-    {1, 1, 0}, 
-    {1, 1, 0}, 
-    {0, 0, 0}
-
-  }, 
-
-  // [ 4 ] twoXthree
-  {
-    {1, 1, 0}, 
-    {1, 1, 0}, 
-    {0, 0, 0}
-
-  }, 
-
-  // [ 5 ] oneXone SAFE
-  {
-    {0, 0, 0}, 
-    {0, 1, 0}, 
-    {0, 0, 0}
-
-  }
-
-};
-
-
 void maintainInstitutes() {
   for (TuioObject tuioObj : listOfMarkers) {
 

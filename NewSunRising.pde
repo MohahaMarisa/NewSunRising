@@ -1,4 +1,4 @@
-import processing.pdf.*;//for exporting pdf //<>// //<>//
+import processing.pdf.*;//for exporting pdf //<>// //<>// //<>//
 import processing.serial.*; //also for serial communication, possibly for button
 import processing.sound.*;
 
@@ -107,10 +107,6 @@ Serial buttonPort;
 
 Table initiatives; //csv of the efforts they support
 StringList initiativesDisplayed = new StringList(); //store the rol col and names of rlevant initatives
-
-
-
-
 
 
 

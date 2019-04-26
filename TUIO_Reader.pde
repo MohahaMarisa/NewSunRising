@@ -13,32 +13,27 @@ float scale_factor = 1;
 boolean verbose = false; // print console debug messages
 boolean callback = true; // updates only after callbacks
 
-// --------------------------------------------------------------
+// -------------------------------------------
 
 // OBJECT ADDED
 void addTuioObject(TuioObject tobj) {
-  // sound for playing
 
-  file.play();
-  // Get Angle
-  //println(tobj.getAngle());
+  file.play();   // sound for playing
 
-  int newId = tobj.getSymbolID();
+  // Build a Box Object
+  buildingBox tempBox = new buildingBox(tobj);
+  int newId = tempBox.getID();
 
   if (newId == calibraterID) { //marker
-    calibrater = tobj;
+
     println("calibrater down");
+    calibrater = tempBox;
   } else if (newId == pinID) {
+
     println("pin down");
-    TUIOPin = tobj;
-
-    int pinRow = (int)whereIsThisObj(TUIOPin).x;
-    int pinCol = (int)whereIsThisObj(TUIOPin).y;
-
-    pin = new Building(pinID, pinRow, pinCol, TUIOPin.getAngle());
+    pin = tempBox;
   } else {
-    listOfMarkers.add(tobj);
-    //println(listOfMarkers);
+    listOfBuildings.add(tempBox);
   }
 
   if (verbose) println("add obj "+tobj.getSymbolID()+" ("+tobj.getSessionID()+") "+tobj.getX()+" "+tobj.getY()+" "+tobj.getAngle());
@@ -46,13 +41,27 @@ void addTuioObject(TuioObject tobj) {
 
 // OBJETCT UPDATED 
 void updateTuioObject (TuioObject tobj) {
-  //println(tobj.getAngle());
 
-  int newId = tobj.getSymbolID();
+  // Build a Box Object
+  buildingBox tempBox = new buildingBox(tobj);
+  int newId = tempBox.getID();
 
   if (newId == calibraterID) { //marker
-    calibrater = tobj;
-  } 
+
+    println("calibrater updated");
+    calibrater = tempBox;
+  } else if (newId == pinID) {
+
+    println("pin updated");
+    pin = tempBox;
+  } else {
+    for (buildingBox curBox : listOfBuildings) {
+      if (curBox.getID() == tempBox.getID()) {
+        curBox = tempBox;
+        break;
+      }
+    }
+  }
 
   if (verbose) println("set obj "+tobj.getSymbolID()+" ("+tobj.getSessionID()+") "+tobj.getX()+" "+tobj.getY()+" "+tobj.getAngle()
     +" "+tobj.getMotionSpeed()+" "+tobj.getRotationSpeed()+" "+tobj.getMotionAccel()+" "+tobj.getRotationAccel());
@@ -60,18 +69,25 @@ void updateTuioObject (TuioObject tobj) {
 
 // OBJECT REMOVED
 void removeTuioObject(TuioObject tobj) {
-  int newId = tobj.getSymbolID();
+  // Build a Box Object
+  buildingBox tempBox = new buildingBox(tobj);
+  int newId = tempBox.getID();
+  
   if (newId == calibraterID) { //marker
-    calibrater = null;
     println("calibrater up");
+    calibrater = null;
   } else if (newId == pinID) {
     println("pin up");
-    TUIOPin = null;
     pin = null;
   } else {
-    listOfMarkers.remove(tobj);
+    for (buildingBox curBox : listOfBuildings) {
+      if (curBox.getID() == tempBox.getID()) {
+        listOfBuildings.remove(curBox);
+        break;
+      }
+    }
   }
-  //println(listOfMarkers);
+
   if (verbose) println("del obj "+tobj.getSymbolID()+" ("+tobj.getSessionID()+")");
 }
 

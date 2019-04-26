@@ -75,6 +75,7 @@ Serial buttonPort;
 Table initiatives; //csv of the efforts they support
 StringList initiativesDisplayed = new StringList(); //store the rol col and names of rlevant initatives
 
+Boolean safeToCV = null;
 
 
 void setup() {
@@ -91,7 +92,7 @@ void setup() {
   tuioClient  = new TuioProcessing(this);
 
   /// MAIN /// 
-  fullScreen(P3D);
+  size(800, 200, P3D);
   //size(1440,900, P3D);
   smooth(2); //for antialiasing
   colorMode(HSB); //idk nmeed to check
@@ -114,7 +115,7 @@ void setup() {
   //GPIO.pinMode(4, GPIO.INPUT_PULLUP);
 
   pinPos = new PVector(-10, -10); //for now until it's put down, it';s negative
-  
+
   coloringTutorial = loadImage("coloring.png");
   pittsburghImage = loadImage("pittsburgh.jpg");
   skyBackground = loadImage("background.png"); //
@@ -130,7 +131,7 @@ void setup() {
 
   initiatives = loadTable("initiatives.csv", "header");//the values are col 0, name 1, description 2
   markerMap = loadTable("markerMap.csv", "header");
-
+  readGridToObjs(testBoards[0]);
   tableScreen.colorMode(HSB);
   tableScreen.noStroke();
 
@@ -149,6 +150,7 @@ void keyPressed() {
   case 'v':
     // start camera calibration
     state = "cameraCalibration";
+    
     break;
 
   case '=': // calibrate camera one square
@@ -162,6 +164,7 @@ void keyPressed() {
 
   case 'k': // load camera calibration
     centerPoints = loadCalibration();
+    safeToCV = true;
     println("load camera calibration");
     break;
 
@@ -173,8 +176,8 @@ void keyPressed() {
     //saves the layout
     ks.save();
     break;
-  case '1': // save camera calibration
-    listOfInstitues.clear();
+  case '1': // clear buildings
+    listOfBuildings.clear();
     break;
   case 'a': // save camera calibration
     saveCalibration();
@@ -274,7 +277,7 @@ int yToRow(int y) {
   return row;
 }
 void draw() {
-  
+
   background(0); // we need to make the areas between lines bright 
   // Convert the mouse coordinate into surface pinPos
   // this will allow you to use mouse events inside the 
@@ -310,7 +313,7 @@ void draw() {
     displayText = "Locate your community by placing the pin [   ] on the map";
     break;
   case "tutorial":
-    tableScreen.image(myMovie, 0,0, tableScreen.width, tableScreen.width*1080/1920);
+    tableScreen.image(myMovie, 0, 0, tableScreen.width, tableScreen.width*1080/1920);
     //tableScreen.image(coloringTutorial, 0,0,width, width*coloringTutorial.height/coloringTutorial.width);
     //tutorial();
     displayText = "Build up your community with value blocks";
@@ -338,7 +341,6 @@ void draw() {
   tableScreen.endDraw();
 
   surface.render(tableScreen);
-  
 }
 
 void textDisplay(String words) { //this is the bottom area underneath the grid

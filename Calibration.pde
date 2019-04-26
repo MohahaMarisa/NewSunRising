@@ -1,5 +1,5 @@
-final int pinID        = 178; //<>//
-final int calibraterID = 97;
+final int pinID              = 178; //<>//
+final int calibraterID  = 96;
 
 int[][] pixelGrid = {
   {0, 0, 0, 0, 0, 0, 0, 0, 0}, 
@@ -20,7 +20,7 @@ int curCol = 0;
 PVector[][] centerPoints = new PVector[numRows][numCols];
 
 
-TuioObject calibrater;
+buildingBox calibrater;
 
 PVector test = new PVector(2.3, 4.5); 
 
@@ -41,8 +41,8 @@ void calibrateOneSquare() {
       if (curRow == numRows - 1 && curCol == numCols - 1) { // calibration complete 
 
         println("calibration done");
-
-        //state = "start"; // change state to start
+        safeToCV = true;
+        state = "coloring2"; // change state to start
 
         resetTimer();
       } else {

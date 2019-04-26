@@ -1,8 +1,17 @@
-#,Marker IDs,Category,Name,Footprint,Dimensions,floorTypes Index
-1,90,Culture Building (Orange),Library,"{1, 1, 0},  {1, 1, 0},  {0, 0, 0}",2x2,3
-2,91,Opportunity Building (Blue),Home,"{0, 0, 0},  {0, 1, 0},  {0, 0, 0}",1x1,0
-3,92, Sustainability Building (Green),Store,"{0, 0, 0},  {1, 1, 1},  {0, 0, 1}",1x1,0
-,,,,,,
-,,,,,,
-,,,,,,
-,,,,,,
+MarkerID,#,Category,Colour,Name,FootprintRef
+110,1,Culture,Orange,Library,2
+90,2,Culture,Orange,School,3
+105,3,Culture,Orange,House,0
+?1,4,Culture,Orange,Shop,0
+98,5,Opportunity ,Blue,Department Store,1
+103,6,Opportunity ,Blue,Community Center,3
+?2,7,Opportunity ,Blue,Shack,0
+?3,8,Opportunity ,Blue,Garage,0
+?6,9,Opportunity ,Blue,5418Wubwubwub,0
+116,10,Sustainability,Green,Hotel,4
+92,11,Sustainability,Green,Solar Shack,0
+107,12,Sustainability,Green,Conference Center,2
+?4,13,Sustainability,Green,Nursery,0
+?5,14,Sustainability,Green,Day Care,0
+178,15,Admin,NA,Pin,0
+179,16,Admin,NA,Calibrater,0

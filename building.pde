@@ -31,7 +31,21 @@ class Building{
     textPos = centerOfBuilding;
   }
   void setTextTarget() {
+    float unit = tableScreen.width/projectorGridCols;
     //look for an empty spot in the front of the building
+    float pixelCenterX = colToX(int(centerOfBuilding.y));
+    float pixelCenterY = rowToY(int(centerOfBuilding.x));
+    
+    float x = pixelCenterX + unit/2; 
+    float y = pixelCenterY + unit;
+    if(footprint[2][1] == 0){ //if in front is empty
+      y = pixelCenterY + unit;
+    }else if(footprint[2][1] == 1){
+      textTarget = PVector(centerOfBuilding.x, centerofBuilding.y + 2*gridWidth);
+    }
+    if(footprint[1][0] == footprint[1][2]){//3 wide building or 1 wide
+      x = pixelCenterX;
+    }
   }
   void setOrgName(){  //grabs the global pinPos which is rol and col
     for(int i = 0; i < initiatives.getRowCount(); i++){

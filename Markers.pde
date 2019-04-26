@@ -16,9 +16,9 @@ void maintainInstitutes() {
   for (TuioObject tuioObj : listOfMarkers) {
 
     // extract from TUIO Obj
-    int objID   = tuioObj.getSymbolID();
-    int objRow   = (int)whereIsThisObj(tuioObj).x;
-    int objCol   = (int)whereIsThisObj(tuioObj).y;
+    int   objID   = tuioObj.getSymbolID();
+    int   objRow   = (int)whereIsThisObj(tuioObj).x;
+    int   objCol   = (int)whereIsThisObj(tuioObj).y;
     float objRot = tuioObj.getAngle();
 
     // build pixelBox obj

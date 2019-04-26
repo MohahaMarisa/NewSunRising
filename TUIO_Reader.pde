@@ -35,7 +35,7 @@ void addTuioObject(TuioObject tobj) {
     int pinRow = (int)whereIsThisObj(TUIOPin).x;
     int pinCol = (int)whereIsThisObj(TUIOPin).y;
 
-    pin = new pixelBox(pinID, pinRow, pinCol, TUIOPin.getAngle());
+    pin = new Building(pinID, pinRow, pinCol, TUIOPin.getAngle());
   } else {
     listOfMarkers.add(tobj);
     //println(listOfMarkers);

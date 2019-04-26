@@ -56,7 +56,6 @@ float globalScale = 0.9; //out of the full screen of what's projecting...
 
 int framesSinceChangeInState = 0; //a timer for animations that happen on changing phases
 
-
 int projectorGridRows = 6;
 int projectorGridCols = 9;
 

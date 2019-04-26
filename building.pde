@@ -1,67 +1,80 @@
-class Building{
+ArrayList<Building> buildings = new ArrayList<Building>();
+
+class Building {
   //grid space variables
-  int[][] footprint; //building foot print in the form of a 3 x 3 arrray 
-  PVector centerOfBuilding; //the marker will walways be in the middle of the footprint array, and is given as a rol and col from the overall screen's grid
-  
-  
+  int[][] footprint;          //building foot print in the form of a 3 x 3 arrray 
+  PVector centerOfBuilding;   //the marker will walways be in the middle of the footprint array, and is given as a rol and col from the overall screen's grid
+
+
   //Computer vision related
-  float radianOrientation;//let's us know how to rotate the foot print
-  PVector CVPosition; //the position of that marker in the pixel space of the camera (HOPEFUlly WON't NEED)
+  float    radianOrientation;    //let's us know how to rotate the foot print
+  PVector  CVPosition;         //the position of that marker in the pixel space of the camera (HOPEFUlly WON't NEED)
 
   //NSR related information
-  String NSRvalue;//is it blue, orange, or green, aka, opportubnity, culture, or sustainability? 
-  String NSRorgName;//name of organization attached to this building
-  color NSRcolor;
-  String buildingName; //aka, what 'type' of building is it (PROBABLY WON'T usE)
-  
+  String   NSRvalue;            //is it blue, orange, or green, aka, opportubnity, culture, or sustainability? 
+  String   NSRorgName;          //name of organization attached to this building
+  color    NSRcolor;
+  String   buildingName;        //aka, what 'type' of building is it (PROBABLY WON'T usE)
+
   //Projector space variables
-  PVector textTarget;//the 'ideal' projector spacecenter point for where the text label of the org name should 
-  PVector textPos;//current position of the text label
-  
+  PVector  textTarget;         //the 'ideal' projector spacecenter point for where the text label of the org name should 
+  PVector  textPos;            //current position of the text label
+
   //animation specific helper variables
-  int startFrame; // the frameCount at the moment of the building's creation, this is useful for animation
-  int stopFrame; // the frameCount at the moment of the building disappearing, will check for time elapsed to see if sinply repositioned, or totally taken off
-    
-  Building(){//it should either refer to, or be given access to the global zipcode variable
+  int      startFrame;             // the frameCount at the moment of the building's creation, this is useful for animation
+  int      stopFrame;              // the frameCount at the moment of the building disappearing, will check for time elapsed to see if sinply repositioned, or totally taken off
+  
+
+  
+  Building(int TUIOid, int locRow, int locCol, float rotation) {                //it should either refer to, or be given access to the global zipcode variable
+    //instituteName = getName(markerID);
+
+    markerId = TUIOid;
+    valueCategory = regressCategory();
+    dirFacing = convertRotation(rotation); 
+    //int[][] pixelBox = getFloorPlan();
+    //pixelBox = transformPixelBox();
+    row = locRow;
+    col = locCol;
     setOrgName();
-    setValueToColor();//set the NSR color
-    
+    setValueToColor();        //set the NSR color
+
     //Center of building needs to be set first!!!!!
     //the text always starts at the center of the building
     textPos = centerOfBuilding;
   }
-  
-  void setOrgName(){  //grabs the global pinPos which is rol and col
-    for(int i = 0; i < initiatives.getRowCount(); i++){
-      
-       TableRow currentRow = initiatives.getRow(i);
-       String firstNameMatch = currentRow.getString("Organization or Project Name");
-       if(!this.alreadyDisplayed(firstNameMatch)){
-         NSRorgName = firstNameMatch; 
-       }
-     }
-  }
-  void setValueToColor(){
-  //COLOR CHANGES
-     switch(this.NSRvalue) {
-          case "culture":
-            this.NSRcolor = color(255, 225, 200);//orange
-           break;
-          case "sustainability":
-            this.NSRcolor = color(200, 255, 200); //green
-            break;
-          case "blue":
-            this.NSRcolor = color(200, 200, 255); //blue for opportunity
-            break;
-          default:
-            break;
+
+  void setOrgName() {  //grabs the global pinPos which is rol and col
+    for (int i = 0; i < initiatives.getRowCount(); i++) {
+
+      TableRow currentRow = initiatives.getRow(i);
+      String firstNameMatch = currentRow.getString("Organization or Project Name");
+      if (!this.alreadyDisplayed(firstNameMatch)) {
+        NSRorgName = firstNameMatch;
       }
+    }
   }
-  Boolean alreadyDisplayed(String nameMatch){//is this initiative not already displayed? 
-    for(int i = 0; i < initiativesDisplayed.size(); i++){
+  void setValueToColor() {
+    //COLOR CHANGES
+    switch(this.NSRvalue) {
+    case "culture":
+      this.NSRcolor = color(255, 225, 200);//orange
+      break;
+    case "sustainability":
+      this.NSRcolor = color(200, 255, 200); //green
+      break;
+    case "blue":
+      this.NSRcolor = color(200, 200, 255); //blue for opportunity
+      break;
+    default:
+      break;
+    }
+  }
+  Boolean alreadyDisplayed(String nameMatch) {//is this initiative not already displayed? 
+    for (int i = 0; i < initiativesDisplayed.size(); i++) {
       String alreadyThere = initiativesDisplayed.get(i);
-      if(nameMatch.equals(alreadyThere)){
-          return true;
+      if (nameMatch.equals(alreadyThere)) {
+        return true;
       }
     }
     return false;
@@ -70,17 +83,17 @@ class Building{
     tableScreen.pushMatrix();
     tableScreen.rectMode(CENTER);
     int halfOfFootprintLength = floor(this.footprint.length / 2);
-    
+
     for (int footprintRow = -1 * halfOfFootprintLength; footprintRow < this.footprint.length - halfOfFootprintLength; footprintRow ++) { //go through the rows in the foot print
       int projectorRow = footprintRow + int(this.centerOfBuilding.x);
-      
-      if(projectorRow < projectorGridRows && projectorRow > 0){//aka, if the footprint is even entirely on the projector screen grid space at all
-        
-         float y = rowToY(projectorRow);
-        
+
+      if (projectorRow < projectorGridRows && projectorRow > 0) {//aka, if the footprint is even entirely on the projector screen grid space at all
+
+        float y = rowToY(projectorRow);
+
         for (int footprintCol = -1 * halfOfFootprintLength; footprintCol <this.footprint.length - halfOfFootprintLength; footprintCol++) { //go through the cols in the footprint
           int projectorCol = footprintCol + int(this.centerOfBuilding.y);
-          if(projectorCol < projectorGridCols && projectorCol > 0){//aka, if the footprint is even entirely on the projector screen grid space at all
+          if (projectorCol < projectorGridCols && projectorCol > 0) {//aka, if the footprint is even entirely on the projector screen grid space at all
             float x = colToX(projectorCol);
             tableScreen.fill(this.NSRcolor);
             tableScreen.noStroke();
@@ -89,7 +102,7 @@ class Building{
             tableScreen.fill(255);
             tableScreen.textAlign(CENTER);
             tableScreen.textSize(32);
-            tableScreen.text(this.NSRorgName,this.textPos.x, this.textPos.y);
+            tableScreen.text(this.NSRorgName, this.textPos.x, this.textPos.y);
             tableScreen.popMatrix();
           }
         }
@@ -108,17 +121,14 @@ class Building{
     float y = row*cellWidth + row*gridGutter + cellWidth/2;
     return y;
   }
-  
-  
-  void updateFootprint(){//given orientation, rotate the footprint
-  }
-  
-  void findMyTextTarget(){
-    this.textTarget = new PVector(0,0);//REPLACE MEEEEE
+
+
+  void updateFootprint() {//given orientation, rotate the footprint
   }
 
-  
-  
+  void findMyTextTarget() {
+    this.textTarget = new PVector(0, 0);//REPLACE MEEEEE
+  }
 }
 
 void printGrid(int[][] gridArray) {
@@ -142,7 +152,7 @@ void debugPrint(int curNum, int row, int col) {
 
 
 /*every frame from the cv, fills into the current board
-*/
+ */
 
 
 //everytime a TUIO object is created ascvcording to if the CV sees anythiong, check if that unique marker is already a building object inside the global array of building objects

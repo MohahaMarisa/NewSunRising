@@ -44,15 +44,25 @@ class Building {
     textPos = centerOfBuilding;
   }
   void setTextTarget() {
-    int offset = -1;
-    switch(this.radianOrientation){
-      case 0: //
+    int offset;
+    bool horizontal = true;
+    float txtOrientation = this.radianOrientation;
+    switch(txtOrientation){
+      case 0: //x plus
+        offset = 1;
+        horizontal = true;
         break;
       case PI/2;
+        offset = -1; //y minus
+        horizontal = false;
         break;
       case PI:
+        offset = -1; //x minus
+        horizontal = true;
         break;
       case 3*PI/2:
+        offset = 1; //y plus
+        horizontal = false;
         break;
       default:
         break;
@@ -62,16 +72,30 @@ class Building {
     float pixelCenterX = colToX(int(centerOfBuilding.y));
     float pixelCenterY = rowToY(int(centerOfBuilding.x));
     
-    float x = pixelCenterX + unit/2; 
-    float y = pixelCenterY + unit;
-    if(footprint[1 + offset][1] == 0){ //if in front is empty
-      y = pixelCenterY + unit;
-    }else if(footprint[0][1] == 1){
-      textTarget = PVector(centerOfBuilding.x, centerofBuilding.y + 2*gridWidth);
+    float x = pixelCenterX + offset * unit/2; 
+    float y = pixelCenterY + offset*unit;
+    if(!horizontal){
+      if(footprint[1 + offset][1] == 0){ //if in front is empty
+        y = pixelCenterY + offset*unit;
+      }else if(footprint[1 + offset][1] == 1){
+        y = pixelCenterY + 2*offset*unit;
+      }
+      if(footprint[1][0] == footprint[1][2]){//3 wide building or 1 wide
+        x = pixelCenterX;
+      }
+    }else{
+      if(footprint[1][1 + offset] == 0){ //if in front is empty
+        x = pixelCenterX + offset*unit;
+      }else if(footprint[1][1+ offset] == 1){
+        x = pixelCenterX + 2*offset*unit;
+      }
+      if(footprint[1][0] == footprint[1][2]){//3 wide building or 1 wide
+        y = pixelCenterY;
+      }else {
+        y = pixelY + offset * unit/2;
+      }
     }
-    if(footprint[1 + offset][0] == footprint[1][2]){//3 wide building or 1 wide
-      x = pixelCenterX;
-    }
+    
     this.textTarget = PVector(x,y);
   }
   void setOrgName(){  //grabs the global pinPos which is rol and col

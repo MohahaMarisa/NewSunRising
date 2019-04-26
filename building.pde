@@ -59,6 +59,7 @@ class Building {
     if(footprint[1][0] == footprint[1][2]){//3 wide building or 1 wide
       x = pixelCenterX;
     }
+    this.textTarget = PVector(x,y);
   }
   void setOrgName(){  //grabs the global pinPos which is rol and col
     for(int i = 0; i < initiatives.getRowCount(); i++){

@@ -31,7 +31,7 @@ class Building{
     textPos = centerOfBuilding;
   }
   
-  void setOrgName(){  
+  void setOrgName(){  //grabs the global pinPos which is rol and col
     for(int i = 0; i < initiatives.getRowCount(); i++){
       
        TableRow currentRow = initiatives.getRow(i);

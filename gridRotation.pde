@@ -1,4 +1,4 @@
-
+/*
 void readGridToObjs(int[][] board) {
   int boardRows = board.length;
   int boardCols = board[0].length;
@@ -17,3 +17,4 @@ void readGridToObjs(int[][] board) {
     }
   }
 }
+*/

@@ -92,7 +92,8 @@ void setup() {
   tuioClient  = new TuioProcessing(this);
 
   /// MAIN /// 
-  size(800, 200, P3D);
+  size(1000, 600, P3D);
+  //fullScreen(P3D);
   //size(1440,900, P3D);
   smooth(2); //for antialiasing
   colorMode(HSB); //idk nmeed to check
@@ -131,17 +132,27 @@ void setup() {
 
   initiatives = loadTable("initiatives.csv", "header");//the values are col 0, name 1, description 2
   markerMap = loadTable("markerMap.csv", "header");
-  readGridToObjs(testBoards[0]);
   tableScreen.colorMode(HSB);
   tableScreen.noStroke();
 
   //myMovie.play();
 }
 void keyPressed() {
-  switch(key) {
+  switch(keyCode) {
   case 'p': //starts in this mode 
     state = "projectorCalibration";
-
+  case UP:
+    // save UP
+    break;
+  case DOWN:
+    // save DOWN
+    break;
+  case RIGHT:
+    // save RIGHT
+    break;
+  case LEFT:
+    // save LEFT
+    break;
   case 'c':
     //calibration moddeeee
     ks.toggleCalibration();
@@ -303,7 +314,9 @@ void draw() {
     testingGrid(#0000BC);
     cameraCalibGrid();
     break;
-
+  case "rotationCalibration":
+    
+    break;
   case "calibrationSynthesis": // ~~ Value Markers Only ~~
     testingGrid(#FF00AA);
     lightUpMarkers();

@@ -69,8 +69,35 @@ class buildingBox {
     //the text always starts at the center of the building
     textPos = centerOfBuilding;
     */
+    
+    this.NSRorgName = setOrgName();
   }
-
+  String setOrgName(){
+   for (TableRow row : table.findRows(zipcode, "Zip Code")) {
+      if(row.getString("Vibrant Communities Strategy").equals(this.NSRvalue)){
+         if(!repeatName(row.getString("Organization or Project Name"))){
+           return(row.getString("Organization or Project Name"));
+         }
+      }
+    }
+    for (TableRow row : table.findRows(zipcode, "Zip Code")) {
+      if(row.getString("Vibrant Communities Strategy").equals(this.NSRvalue)){
+         if(!repeatName(row.getString("Organization or Project Name"))){
+           return(row.getString("Organization or Project Name"));
+         }
+      }
+    }
+    initiatives.findRows(zipcode, "Zip Code");
+    this.NSRorgName = "";
+  }
+  Boolean repeatName(String name){//is the name repeated before
+    for(buildingBox another : listOfBuildings){
+      if(name.equals(another.NSRorgName)){
+        return True;
+      }
+    }
+    return False;
+  }
   String regressCategory () {
     int catEnum = markerId % 5;
     if (catEnum == 0) {
@@ -209,5 +236,39 @@ class buildingBox {
     default:
       break;
     }
+  }
+  void display() {//this is marisa drawing to projector's canvas space
+  tableScreen.pushMatrix();
+  tableScreen.rectMode(CENTER);
+  int halfOfFootprintLength = floor(this.footprint.length / 2);
+
+  for (int footprintRow = -1 * halfOfFootprintLength; footprintRow < this.footprint.length - halfOfFootprintLength; footprintRow ++) { //go through the rows in the foot print
+    int projectorRow = footprintRow + int(this.centerOfBuilding.x);
+
+    if (projectorRow < projectorGridRows && projectorRow > 0) {//aka, if the footprint is even entirely on the projector screen grid space at all
+
+      float y = rowToY(projectorRow);
+
+      for (int footprintCol = -1 * halfOfFootprintLength; footprintCol <this.footprint.length - halfOfFootprintLength; footprintCol++) { //go through the cols in the footprint
+        int projectorCol = footprintCol + int(this.centerOfBuilding.y);
+        if (projectorCol < projectorGridCols && projectorCol > 0) {//aka, if the footprint is even entirely on the projector screen grid space at all
+          float x = colToX(projectorCol);
+          tableScreen.fill(this.NSRcolor);
+          tableScreen.noStroke();
+          tableScreen.rect(x, y, tableScreen.width/projectorGridCols, tableScreen.width/projectorGridCols);
+          tableScreen.pushMatrix();
+          tableScreen.fill(255);
+          tableScreen.textAlign(CENTER);
+          tableScreen.textSize(32);
+          tableScreen.translate(this.textPos.x, this.textPos.y);
+          tableScreen.rotate(this.radianOrientation);
+          tableScreen.text(this.NSRorgName, 0, 0);
+          tableScreen.popMatrix();
+        }
+      }
+    }
+    this.textPos = new PVector(this.textPos.x*0.95 + this.textTarget.x*0.05, this.textPos.y*0.95 + this.textTarget.y*0.05);
+  }
+  tableScreen.popMatrix();
   }
 }

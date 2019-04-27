@@ -106,20 +106,7 @@ class buildingBox {
     }
     return False;
   }
-  String regressCategory () {
-    int catEnum = markerId % 5;
-    if (catEnum == 0) {
-      return "Connectivity";
-    } else if (catEnum == 1) {
-      return "Culture";
-    } else if (catEnum == 2) {
-      return "Sustainability";
-    } else if (catEnum == 3) {
-      return "Planning";
-    } else {
-      return "Opportunity";
-    }
-
+  
     /*
     THINGS TO WRITE
      
@@ -145,19 +132,19 @@ class buildingBox {
   }
 
   char radianToDirection() {
-    float r = radianRot;
     float minD = 100;
     char ans = 'x';
+    
     for (int i = 0; i < 3; i++) {
-      float delta = abs(r - fourDirs[i]);
+      float delta = abs(radianRot - fourDirs[i]);
       if (delta < minD) {
         
         minD = delta;
 
-        if (i == 0)      {ans='f';}
-        else if (i == 1) {ans='r';}
-        else if (i == 2) {ans='l';}
-        else             {ans='b';}
+        if      (i == 0) {ans='f';} // object is facing the front
+        else if (i == 1) {ans='r';} // object is facing the right
+        else if (i == 2) {ans='l';} // object is facing the left
+        else             {ans='b';} // object is facing the back
       }
     }
     return ans;

@@ -1,19 +1,27 @@
-final int pinID              = 178; //<>//
-final int calibraterID  = 96;
+final int pinID         = 104; //<>//
+final int calibraterID  = 106;
 
 //Front  , Right    , Left     , Back
 float [] fourDirs = {3.06641, 4.7075696, 1.5387876, 6.2302227};
 
 void setRadRotOfCalib(char facing) {
-  switch (facing) {
-  case 'f':
-    fourDirs[0] = calibrater.getRotation();
-  case 'r':
-    fourDirs[1] = calibrater.getRotation();
-  case 'l':
-    fourDirs[2] = calibrater.getRotation();
-  case 'u':
-    fourDirs[3] = calibrater.getRotation();
+  if ( calibrater == null) { 
+    fail.play();
+  } else {
+    switch (facing) {
+    case 'f':
+      fourDirs[0] = calibrater.getRotation();
+      lock.play();
+    case 'r':
+      fourDirs[1] = calibrater.getRotation();
+      lock.play();
+    case 'l':
+      fourDirs[2] = calibrater.getRotation();
+      lock.play();
+    case 'u': // back
+      fourDirs[3] = calibrater.getRotation();
+      lock.play();
+    }
   }
 }
 

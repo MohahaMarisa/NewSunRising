@@ -30,7 +30,7 @@ void maintainInstitutes() {
 void highlightInstitutes() {
   testingGrid(#AAAAAA);
   for (buildingBox pxBox : listOfBuildings) {
-    
+
     if (pxBox.getValue() == "Connectivity") {
       lightUpSquare(pxBox.getRow(), pxBox.getCol(), #FF7200);
     } else if (pxBox.getValue() == "Culture") {
@@ -59,7 +59,7 @@ void lightUpMarkers() {
 //given marker, get pixel xy from camera and compare it to center points, whichever closest is 
 //center point tells us what the row col of the marker is
 PVector whereIsThisObj(TuioObject singleMark) {
-  if (safeToCV != null) {
+  if (safeToCV && markerMapLoaded) {
     float lX = singleMark.getX();
     float lY = singleMark.getY();
 
@@ -86,6 +86,7 @@ PVector whereIsThisObj(TuioObject singleMark) {
       }
     }
     return new PVector(locRow, locCol, 0);
+  } else {
+    return new PVector(-10, -10, 0);
   }
-  return new PVector(-10, -10, 0);
 }

@@ -1,4 +1,4 @@
-import processing.pdf.*;//for exporting pdf //<>// //<>// //<>//
+import processing.pdf.*;//for exporting pdf //<>// //<>// //<>// //<>//
 import processing.serial.*; //also for serial communication, possibly for button
 import processing.sound.*;
 
@@ -75,8 +75,8 @@ Serial buttonPort;
 Table initiatives; //csv of the efforts they support
 StringList initiativesDisplayed = new StringList(); //store the rol col and names of rlevant initatives
 
-Boolean safeToCV = null;
-
+Boolean safeToCV = false;
+Boolean markerMapLoaded = false;
 
 void setup() {
   /// TTUUIIOO ///
@@ -132,93 +132,114 @@ void setup() {
 
   initiatives = loadTable("initiatives.csv", "header");//the values are col 0, name 1, description 2
   markerMap = loadTable("markerMap.csv", "header");
+  markerMapLoaded = true;
   tableScreen.colorMode(HSB);
   tableScreen.noStroke();
 
   //myMovie.play();
 }
 void keyPressed() {
-  switch(keyCode) {
-  case 'p': //starts in this mode 
-    state = "projectorCalibration";
-  case UP:
-    // save UP
-    break;
-  case DOWN:
-    // save DOWN
-    break;
-  case RIGHT:
-    // save RIGHT
-    break;
-  case LEFT:
-    // save LEFT
-    break;
-  case 'c':
-    //calibration moddeeee
-    ks.toggleCalibration();
-    break;
+  if (key == CODED) {
+    switch(keyCode) {
+    case UP:
+      // save UP, "pointing to back of box"
+      setRadRotOfCalib('u');
+      break;
+    case DOWN:
+      // save DOWN, "pointing to front of box" 
+      setRadRotOfCalib('f');
+      break;
+    case RIGHT:
+      // save RIGHT
+      setRadRotOfCalib('r');
+      break;
+    case LEFT:
+      // save LEFT
+      setRadRotOfCalib('l');
+      break;
+    case BACKSPACE:
+      // implement saving for rotation calibration 
+      break;
+    }
+  } else {
+    switch(key) {
 
-  case 'v':
-    // start camera calibration
-    state = "cameraCalibration";
-    
-    break;
+    case 'p': //starts in this mode 
+      state = "projectorCalibration";
+    case 'n':
+      //Front  , Right    , Left     , Back
+      print("Front: " + fourDirs[0]);
+      print("Right: " + fourDirs[1]);
+      print("Left:  " + fourDirs[2]);
+      print("Back:  " + fourDirs[3]);
+      break;
+    case 'c':
+      //calibration moddeeee
+      ks.toggleCalibration();
+      break;
 
-  case '=': // calibrate camera one square
-    calibrateOneSquare();
-    break;
+    case 'v':
+      // start camera calibration
+      state = "cameraCalibration";
 
-  case 'l':
-    //loads the saved layout
-    ks.load();
-    break;
+      break;
 
-  case 'k': // load camera calibration
-    centerPoints = loadCalibration();
-    safeToCV = true;
-    println("load camera calibration");
-    break;
+    case '=': // calibrate camera one square
+      calibrateOneSquare();
+      break;
 
-  case 'm': // calibration testing mode
-    state = "calibrationSynthesis";
-    break;
+    case 'l':
+      //loads the saved layout
+      ks.load();
+      break;
 
-  case 's' : // save projector calibration
-    //saves the layout
-    ks.save();
-    break;
-  case '1': // clear buildings
-    listOfBuildings.clear();
-    break;
-  case 'a': // save camera calibration
-    saveCalibration();
-    println("saved camera calibration");
-    break;
+    case 'k': // load camera calibration
+      centerPoints = loadCalibration();
+      safeToCV = true;
+      println("load camera calibration");
+      break;
 
-  case 'd': // clear camera calibration
-    centerPoints = new PVector[numRows][numCols];
-    curRow = 0;
-    curCol = 0;
-    break;
+    case 'm': // calibration testing mode
+      state = "calibrationSynthesis";
+      break;
 
-  case '8':
-    state = "start";
-    resetTimer();
-    break;
+    case 's' : // save projector calibration
+      //saves the layout
+      ks.save();
+      break;
+    case '1': // clear buildings
+      listOfBuildings.clear();
+      break;
+    case 'a': // save camera calibration
+      saveCalibration();
+      println("saved camera calibration");
+      break;
 
-  case '0': 
-    state = "coloring2";
-    break;
-  case 't':
-    state = "tutorial";
-    myMovie.play();
-    break;
+    case 'd': // clear camera calibration
+      centerPoints = new PVector[numRows][numCols];
+      curRow = 0;
+      curCol = 0;
+      break;
 
-  case 'x':
-    state = "printing";
-    generatePrintScene();
-    printScene.save("posterx.jpg");
-    break;
+    case '8':
+      state = "start";
+      resetTimer();
+      break;
+
+    case '0': 
+      state = "coloring2";
+      break;
+    case 't':
+      state = "tutorial";
+      myMovie.play();
+      break;
+
+    case 'x':
+      state = "printing";
+      generatePrintScene();
+      printScene.save("posterx.jpg");
+      break;
+    }
   }
 }
 
@@ -315,7 +336,7 @@ void draw() {
     cameraCalibGrid();
     break;
   case "rotationCalibration":
-    
+
     break;
   case "calibrationSynthesis": // ~~ Value Markers Only ~~
     testingGrid(#FF00AA);

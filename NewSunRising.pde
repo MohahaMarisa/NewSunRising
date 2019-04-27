@@ -45,7 +45,7 @@ PFont bold;
 String displayText = "hello world copy goes here";
 PShape map;
 PVector pinPos;// for where the pin is used to be called pinPos
-int zipcode = 15213;//updates according to pin pos
+String zipcode = "15213";//updates according to pin pos
 
 
 // LAT LONGS

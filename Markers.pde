@@ -30,7 +30,7 @@ void maintainInstitutes() {
 void highlightInstitutes() {
   testingGrid(#AAAAAA);
   for (buildingBox pxBox : listOfBuildings) {
-    println(pxBox.radianOrientation);
+    
     if (pxBox.getValue() == "Connectivity") {
       lightUpSquare(pxBox.getRow(), pxBox.getCol(), #FF7200);
     } else if (pxBox.getValue() == "Culture") {

@@ -1,6 +1,3 @@
-
-
-
 void setTextTarget() {
   //look for an empty spot in the front of the building
 }

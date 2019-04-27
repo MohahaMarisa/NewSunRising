@@ -1,4 +1,4 @@
-import processing.pdf.*;//for exporting pdf //<>// //<>// //<>// //<>// //<>// //<>//
+import processing.pdf.*;//for exporting pdf //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 import processing.serial.*; //also for serial communication, possibly for button
 import processing.sound.*;
 
@@ -46,10 +46,6 @@ String displayText = "hello world copy goes here";
 PShape map;
 PVector pinPos;// for where the pin is used to be called pinPos
 String zipcode = "15213";//updates according to pin pos
-
-
-// LAT LONGS
-//{15232: {40.461947, -79.915167}, 15104: {40.416888, -79.83783509999999}, 15235: {40.5502739, -79.776787}, 15237: {40.5946901, -79.986975}, 15233: {40.478524, -80.01341289999999}, 15120: {40.417056, -79.8777719}, 15001: {40.6658329, -80.22868}, 15132: {40.364992, -79.8082791}, 15136: {40.5169811, -80.0468411}, 15201: {40.49156989999999, -79.93112310000001}, 15202: {40.521929, -79.951013}, 15203: {40.437697, -79.951683}, 15204: {40.4656758, -80.0375679}, 15205: {40.470715, -80.043431}, 15206: {40.4927379, -79.883772}, 15207: {40.4362111, -79.89945}, 15208: {40.4646109, -79.883239}, 15209: {40.5287469, -79.951054}, 15210: {40.425946, -79.9381559}, 15019: {40.477568, -80.285159}, 15212: {40.494734, -79.9724021}, 15213: {40.46063700000001, -79.93719}, 15214: {40.507202, -79.9737799}, 15215: {40.526597, -79.8834789}, 15216: {40.430076, -80.010481}, 15217: {40.4499356, -79.8986718}, 15218: {40.436855, -79.86769}, 15219: {40.472077, -79.840588}, 15220: {40.4525859, -80.007819}, 15221: {40.463628, -79.8346261}, 15222: {40.46445689999999, -79.9731011}, 15223: {40.5220399, -79.9380121}, 15224: {40.478645, -79.93278699999999}, 15226: {40.4221701, -79.9981669}, 15229: {40.535651, -80.00370889999999}, 15228: {40.5532377, -80.0184329}, 15146: {40.462069, -79.6985371}, 15211: {40.444485, -79.9972109}}
 
 boolean shifted; //is the shift key pressed?
 float globalScale = 0.9; //out of the full screen of what's projecting...
@@ -746,67 +742,68 @@ void isItNorthCornerBlock(int row, int col, int buildingValue) {//given row col 
 //    }
 //   return cc;
 //}
-void threeDGrid(int[][] grid, int totalSize) {//helper function
-  int w = int(totalSize/ grid[0].length);
-  int h = w;
 
-  for (int z = 2; z<1000; z+=4) {
-    noiseGrid(grid.length, grid[0].length, totalSize, z);
-  }
+//void threeDGrid(int[][] grid, int totalSize) {//helper function
+//  int w = int(totalSize/ grid[0].length);
+//  int h = w;
 
-  for (int row = 0; row < grid.length; row ++) {
-    int y = int(row*h);
-    for (int col = 0; col < grid[row].length; col++) {
-      int x = int(col*w);
-      if (grid[row][col] > 0) {//IF it's filled
-        printScene.pushMatrix();
-        int howTallBuilding = 50;
-        printScene.translate(x, y, howTallBuilding*0.5);
+//  for (int z = 2; z<1000; z+=4) {
+//    noiseGrid(grid.length, grid[0].length, totalSize, z);
+//  }
 
-        //COLOR CHANGES
-        //color cc = valueToColor(grid[row][col]);
-        color cc = color(255, 0, 0);
-        printScene.fill(cc);
-        printScene.box(w, h, howTallBuilding); // maybe we can have box come from ground downward?
-        printScene.pushMatrix();
-        printScene.rotateX(-PI/2);
-        printScene.rect(0, 0, 2, -180);//the line to go up from square
-        printScene.textFont(regular, 18);
-        printScene.rotateY(PI/4);
-        printScene.text("HelloWorld", 0, -180);
-        printScene.popMatrix();
-        printScene.popMatrix();
+//  for (int row = 0; row < grid.length; row ++) {
+//    int y = int(row*h);
+//    for (int col = 0; col < grid[row].length; col++) {
+//      int x = int(col*w);
+//      if (grid[row][col] > 0) {//IF it's filled
+//        printScene.pushMatrix();
+//        int howTallBuilding = 50;
+//        printScene.translate(x, y, howTallBuilding*0.5);
 
-        printScene.pushMatrix();
-        printScene.strokeWeight(1);
-        float tallness = 150*noise(x/100, y/100) + 50;
-        printScene.translate(x, y, tallness/-2);
-        printScene.fill(255, 0, 255);
-        printScene.box(w, h, tallness);
-        printScene.popMatrix();
-      }
-    }
-  }
-}
-void noiseGrid(int rows, int columns, int totalSize, int z) {
-  int w = int(totalSize/ columns);
-  int h = w;
+//        //COLOR CHANGES
+//        //color cc = valueToColor(grid[row][col]);
+//        color cc = color(255, 0, 0);
+//        printScene.fill(cc);
+//        printScene.box(w, h, howTallBuilding); // maybe we can have box come from ground downward?
+//        printScene.pushMatrix();
+//        printScene.rotateX(-PI/2);
+//        printScene.rect(0, 0, 2, -180);//the line to go up from square
+//        printScene.textFont(regular, 18);
+//        printScene.rotateY(PI/4);
+//        printScene.text("HelloWorld", 0, -180);
+//        printScene.popMatrix();
+//        printScene.popMatrix();
 
-  for (int row = 0; row < rows; row ++) {
-    int y = int(row*h);
-    for (int col = 0; col < columns; col++) {
-      int x = int(col*w);
-      int zStep = int(100*noise(x/100 + 1000, y/40 + 100));
-      if (noise(x/100, y/300, z/90) > 0.63) {
-        printScene.pushMatrix();
-        printScene.translate(x, y, -z);
-        printScene.fill(255, 0, 255);
-        printScene.box(w, h, 4);
-        printScene.popMatrix();
-      }
-    }
-  }
-}
+//        printScene.pushMatrix();
+//        printScene.strokeWeight(1);
+//        float tallness = 150*noise(x/100, y/100) + 50;
+//        printScene.translate(x, y, tallness/-2);
+//        printScene.fill(255, 0, 255);
+//        printScene.box(w, h, tallness);
+//        printScene.popMatrix();
+//      }
+//    }
+//  }
+//}
+//void noiseGrid(int rows, int columns, int totalSize, int z) {
+//  int w = int(totalSize/ columns);
+//  int h = w;
+
+//  for (int row = 0; row < rows; row ++) {
+//    int y = int(row*h);
+//    for (int col = 0; col < columns; col++) {
+//      int x = int(col*w);
+//      int zStep = int(100*noise(x/100 + 1000, y/40 + 100));
+//      if (noise(x/100, y/300, z/90) > 0.63) {
+//        printScene.pushMatrix();
+//        printScene.translate(x, y, -z);
+//        printScene.fill(255, 0, 255);
+//        printScene.box(w, h, 4);
+//        printScene.popMatrix();
+//      }
+//    }
+//  }
+//}
 void transitionAnimationToPrint() {//after the poster world is generated and the desired true state already set, this displays to the projection
   int transitionTime = 80;
   float tableY = 0;

@@ -259,21 +259,21 @@ class buildingBox {
     }
   }
   void display() {//this is marisa drawing to projector's canvas space
-  tableScreen.pushMatrix();
-  tableScreen.rectMode(CENTER);
-  int halfOfFootprintLength = floor(this.footprint.length / 2);
+    tableScreen.pushMatrix();
+    tableScreen.rectMode(CENTER);
+    int halfOfFootprintLength = floor(this.footprint.length / 2);
 
-  for (int footprintRow = -1 * halfOfFootprintLength; footprintRow < this.footprint.length - halfOfFootprintLength; footprintRow ++) { //go through the rows in the foot print
-    int projectorRow = footprintRow + int(row);
+    for (int footprintRow = -1 * halfOfFootprintLength; footprintRow < this.footprint.length - halfOfFootprintLength; footprintRow ++) { //go through the rows in the foot print
+      int projectorRow = footprintRow + int(row);
 
-    if (projectorRow < projectorGridRows && projectorRow > 0) {//aka, if the footprint is even entirely on the projector screen grid space at all
+      if (projectorRow < projectorGridRows && projectorRow > 0) {//aka, if the footprint is even entirely on the projector screen grid space at all
 
       float y = rowToY(projectorRow);
 
       for (int footprintCol = -1 * halfOfFootprintLength; footprintCol <this.footprint.length - halfOfFootprintLength; footprintCol++) { //go through the cols in the footprint
         int projectorCol = footprintCol + int(this.bCol);
-        if (projectorCol < projectorGridCols && projectorCol > 0) {//aka, if the footprint is even entirely on the projector screen grid space at all
-          float x = colToX(projectorCol);
+         if (projectorCol < projectorGridCols && projectorCol > 0) {//aka, if the footprint is even entirely on the projector screen grid space at all
+           float x = colToX(projectorCol);
           tableScreen.fill(this.NSRcolor);
           tableScreen.noStroke();
           tableScreen.rect(x, y, tableScreen.width/projectorGridCols, tableScreen.width/projectorGridCols);
@@ -287,9 +287,8 @@ class buildingBox {
           tableScreen.popMatrix();
         }
       }
-    }
     this.textPos = new PVector(this.textPos.x*0.95 + this.textTarget.x*0.05, this.textPos.y*0.95 + this.textTarget.y*0.05);
-  }
+    }
   tableScreen.popMatrix();
   }
 }

@@ -11,9 +11,6 @@ class buildingBox {
   int[][] footprint;          //building foot print in the form of a 3 x 3 arrray
   int[][] correctedFootprint;
 
-  // ???
-  PVector centerOfBuilding;   //the marker will walways be in the middle of the footprint array, and is given as a rol and col from the overall screen's grid
-
   // CV
   PVector  CVPosition;        // the position of that marker in the pixel space of the camera (HOPEFUlly WON't NEED)
   char     dirFacing;
@@ -22,6 +19,7 @@ class buildingBox {
   String   NSRvalue;          //is it blue, orange, or green, aka, opportubnity, culture, or sustainability? 
   String   NSRorgName;        //name of organization attached to this building
   String   NSRcolorName;
+  String   NSRdescription; //the description of the organization
   color    NSRcolor;
   String   buildingName;      //aka, what 'type' of building is it (PROBABLY WON'T usE)
 
@@ -33,8 +31,8 @@ class buildingBox {
   int      startFrame;             // the frameCount at the moment of the building's creation, this is useful for animation
   int      stopFrame;              // the frameCount at the moment of the building disappearing, will check for time elapsed to see if sinply repositioned, or totally taken off
 
-  int row;
-  int col;
+  int bRow;
+  int bCol;
 
   buildingBox(TuioObject objToConstructFrom) {
 
@@ -58,8 +56,8 @@ class buildingBox {
 
     correctedFootprint    = rotateGrid(footprint, dirFacing);
 
-    row = (int)whereIsThisObj(originObj).x;
-    col  = (int)whereIsThisObj(originObj).y;
+    bRow = (int)whereIsThisObj(originObj).x;
+    bCol  = (int)whereIsThisObj(originObj).y;
     
     /* Fro m old building class
         markerId = TUIOid;
@@ -77,25 +75,24 @@ class buildingBox {
     textPos = centerOfBuilding;
     */
     
-    this.NSRorgName = setOrgName();
+    NSRorgName = setOrgName();
+    NSRdescription = setDescription();
   }
   String setOrgName(){
-   for (TableRow row : table.findRows(zipcode, "Zip Code")) {
+   for (String zip : nearbyZipcodes5[int(pinPos.x)][int(pinPos.y)]){
+     for (TableRow row : table.findRows(zip, "Zip Code")) {
       if(row.getString("Vibrant Communities Strategy").equals(this.NSRvalue)){
          if(!repeatName(row.getString("Organization or Project Name"))){
            return(row.getString("Organization or Project Name"));
          }
       }
     }
-    for (TableRow row : table.findRows(zipcode, "Zip Code")) {
-      if(row.getString("Vibrant Communities Strategy").equals(this.NSRvalue)){
-         if(!repeatName(row.getString("Organization or Project Name"))){
-           return(row.getString("Organization or Project Name"));
-         }
-      }
+   }else return "Find an Ignite Workshop near you";
+  }
+  String setDescription(){
+    for(TableRow row : table.findRows(NSRorgName, "Organization or Project Name")){
+      return row.getString("Sustainable Development Goal");
     }
-    initiatives.findRows(zipcode, "Zip Code");
-    this.NSRorgName = "";
   }
   Boolean repeatName(String name){//is the name repeated before
     for(buildingBox another : listOfBuildings){
@@ -259,14 +256,14 @@ class buildingBox {
   int halfOfFootprintLength = floor(this.footprint.length / 2);
 
   for (int footprintRow = -1 * halfOfFootprintLength; footprintRow < this.footprint.length - halfOfFootprintLength; footprintRow ++) { //go through the rows in the foot print
-    int projectorRow = footprintRow + int(this.centerOfBuilding.x);
+    int projectorRow = footprintRow + int(row);
 
     if (projectorRow < projectorGridRows && projectorRow > 0) {//aka, if the footprint is even entirely on the projector screen grid space at all
 
       float y = rowToY(projectorRow);
 
       for (int footprintCol = -1 * halfOfFootprintLength; footprintCol <this.footprint.length - halfOfFootprintLength; footprintCol++) { //go through the cols in the footprint
-        int projectorCol = footprintCol + int(this.centerOfBuilding.y);
+        int projectorCol = footprintCol + int(this.bCol);
         if (projectorCol < projectorGridCols && projectorCol > 0) {//aka, if the footprint is even entirely on the projector screen grid space at all
           float x = colToX(projectorCol);
           tableScreen.fill(this.NSRcolor);

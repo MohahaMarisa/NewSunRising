@@ -17,19 +17,6 @@ SoundFile fail;
 PVector tableMouse;
 PGraphics tableScreen; //seperate canvas for what's being projected to top
 PGraphics printScene; //seperate canvas that sometimes also draws to table screen
-/*
-pixel grid is recieved from the CV analyzing the abstracte community
- and finding the different colors
- 1. orange - connectivity
- 2. Yellow - Opportunity
- 3. Green- Sustainability
- 4. blue - planning
- 5. purple - Culture
- 
- we're going to have calibration marker toooooo
- 
- RED IS THE PIIIINNNNN
- */
 
 float gridWidth;
 int gridX = 0;
@@ -685,7 +672,7 @@ class Ripple {
 
 /*———————————————————————————————————————————————————————————————————————————————————————————————————————————//
  POSTER SCENE FOR PRINT
- ——————————————————————————————————————————————————————————————————————————————————————————————————*/
+// ——————————————————————————————————————————————————————————————————————————————————————————————————*/
 public void generatePrintScene() {//called once TO generate 3D 
   printScene.beginDraw();
   printScene.smooth(2);
@@ -719,9 +706,6 @@ public void generatePrintScene() {//called once TO generate 3D
   printScene.endDraw();
   printScene.save("poster.jpg");
   state = "start";
-}
-void isItNorthCornerBlock(int row, int col, int buildingValue) {//given row col of a building block, we need to know if it the 
-  //check to see if there's any neighbor to the left, right
 }
 
 //color valueToColor(int value){

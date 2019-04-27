@@ -26,23 +26,22 @@ float colToX(int col) {//returns the center point of that cell
   float x = col*cellWidth + col*gridGutter + cellWidth/2;
   return x;
 }
+
 float rowToY(int row) {//returns the center point of that cell
   float y = row*cellWidth + row*gridGutter + cellWidth/2;
   return y;
 }
 
-
-
 void setValueToColor() {
   //COLOR CHANGES
   switch(this.NSRvalue) {
-  case "culture":
+  case "Culture":
     this.NSRcolor = color(255, 225, 200);//orange
     break;
-  case "sustainability":
+  case "Sustainability":
     this.NSRcolor = color(200, 255, 200); //green
     break;
-  case "blue":
+  case "Opportunity":
     this.NSRcolor = color(200, 200, 255); //blue for opportunity
     break;
   default:

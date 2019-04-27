@@ -24,21 +24,6 @@ class pixelBox {
     col = locCol;
   }
 
-  String regressCategory () {
-    int catEnum = markerId % 5;
-    if (catEnum == 0) {
-      return "Connectivity";
-    } else if (catEnum == 1) {
-      return "Culture";
-    } else if (catEnum == 2) {
-      return "Sustainability";
-    } else if (catEnum == 3) {
-      return "Planning";
-    } else {
-      return "Opportunity";
-    }
-  }
-
   int[][] getFloorPlan() {
     println(markerId);
     println(markerStartingPoint);

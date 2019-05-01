@@ -1,4 +1,4 @@
-import processing.pdf.*;//for exporting pdf //<>// //<>// //<>// //<>// //<>// //<>//
+import processing.pdf.*;//for exporting pdf //<>// //<>// //<>// //<>//
 import processing.serial.*; //also for serial communication, possibly for button
 import processing.sound.*;
 
@@ -45,7 +45,7 @@ PFont bold;
 String displayText = "hello world copy goes here";
 PShape map;
 PVector pinPos;// for where the pin is used to be called pinPos
-String zipcode = "15213";//updates according to pin pos
+int zipcode = 15213;//updates according to pin pos
 
 
 // LAT LONGS
@@ -117,7 +117,7 @@ void setup() {
 
   pinPos = new PVector(-10, -10); //for now until it's put down, it';s negative
 
-
+  coloringTutorial = loadImage("coloring.png");
   pittsburghImage = loadImage("pittsburgh.jpg");
   skyBackground = loadImage("background.png"); //
   printScene = createGraphics(1100, 850, P3D);//start a seperate buffer for the poster stuff

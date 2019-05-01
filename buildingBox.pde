@@ -11,6 +11,9 @@ class buildingBox {
   int[][] footprint;          //building foot print in the form of a 3 x 3 arrray
   int[][] correctedFootprint;
 
+  // ???
+  PVector centerOfBuilding;   //the marker will walways be in the middle of the footprint array, and is given as a rol and col from the overall screen's grid
+
   // CV
   PVector  CVPosition;        // the position of that marker in the pixel space of the camera (HOPEFUlly WON't NEED)
   char     dirFacing;
@@ -19,7 +22,6 @@ class buildingBox {
   String   NSRvalue;          //is it blue, orange, or green, aka, opportubnity, culture, or sustainability? 
   String   NSRorgName;        //name of organization attached to this building
   String   NSRcolorName;
-  String   NSRdescription; //the description of the organization
   color    NSRcolor;
   String   buildingName;      //aka, what 'type' of building is it (PROBABLY WON'T usE)
 
@@ -31,8 +33,8 @@ class buildingBox {
   int      startFrame;             // the frameCount at the moment of the building's creation, this is useful for animation
   int      stopFrame;              // the frameCount at the moment of the building disappearing, will check for time elapsed to see if sinply repositioned, or totally taken off
 
-  int bRow;
-  int bCol;
+  int row;
+  int col;
 
   buildingBox(TuioObject objToConstructFrom) {
 
@@ -57,53 +59,9 @@ class buildingBox {
 
     correctedFootprint    = rotateGrid(footprint, dirFacing);
 
-    bRow = (int)whereIsThisObj(originObj).x;
-    bCol  = (int)whereIsThisObj(originObj).y;
-    
-    /* Fro m old building class
-        markerId = TUIOid;
-    valueCategory = regressCategory();
-    dirFacing = convertRotation(rotation); 
-    //int[][] pixelBox = getFloorPlan();
-    //pixelBox = transformPixelBox();
-    row = locRow;
-    col = locCol;
-    setOrgName();
-    setValueToColor();        //set the NSR color
+    row = (int)whereIsThisObj(originObj).x;
+    col  = (int)whereIsThisObj(originObj).y;
 
-    //Center of building needs to be set first!!!!!
-    //the text always starts at the center of the building
-    textPos = centerOfBuilding;
-    */
-    
-    NSRorgName = setOrgName();
-    NSRdescription = setDescription();
-  }
-  String setOrgName(){
-   for (String zip : nearbyZipcodes5[int(pinPos.x)][int(pinPos.y)]){
-     for (TableRow row : table.findRows(zip, "Zip Code")) {
-      if(row.getString("Vibrant Communities Strategy").equals(this.NSRvalue)){
-         if(!repeatName(row.getString("Organization or Project Name"))){
-           return(row.getString("Organization or Project Name"));
-         }
-      }
-    }
-   }else return "Find an Ignite Workshop near you";
-  }
-  String setDescription(){
-    for(TableRow row : table.findRows(NSRorgName, "Organization or Project Name")){
-      return row.getString("Sustainable Development Goal");
-    }
-  }
-  Boolean repeatName(String name){//is the name repeated before
-    for(buildingBox another : listOfBuildings){
-      if(name.equals(another.NSRorgName)){
-        return True;
-      }
-    }
-    return False;
-  }
-  
     /*
     THINGS TO WRITE
      
@@ -129,19 +87,19 @@ class buildingBox {
   }
 
   char radianToDirection() {
+    float r = radianRot;
     float minD = 100;
     char ans = 'x';
-    
     for (int i = 0; i < 3; i++) {
-      float delta = abs(radianRot - fourDirs[i]);
+      float delta = abs(r - fourDirs[i]);
       if (delta < minD) {
         
         minD = delta;
 
-        if      (i == 0) {ans='f';} // object is facing the front
-        else if (i == 1) {ans='r';} // object is facing the right
-        else if (i == 2) {ans='l';} // object is facing the left
-        else             {ans='b';} // object is facing the back
+        if (i == 0)      {ans='f';}
+        else if (i == 1) {ans='r';}
+        else if (i == 2) {ans='l';}
+        else             {ans='b';}
       }
     }
     return ans;
@@ -257,39 +215,5 @@ class buildingBox {
     default:
       break;
     }
-  }
-  void display() {//this is marisa drawing to projector's canvas space
-  tableScreen.pushMatrix();
-  tableScreen.rectMode(CENTER);
-  int halfOfFootprintLength = floor(this.footprint.length / 2);
-
-  for (int footprintRow = -1 * halfOfFootprintLength; footprintRow < this.footprint.length - halfOfFootprintLength; footprintRow ++) { //go through the rows in the foot print
-    int projectorRow = footprintRow + int(row);
-
-    if (projectorRow < projectorGridRows && projectorRow > 0) {//aka, if the footprint is even entirely on the projector screen grid space at all
-
-      float y = rowToY(projectorRow);
-
-      for (int footprintCol = -1 * halfOfFootprintLength; footprintCol <this.footprint.length - halfOfFootprintLength; footprintCol++) { //go through the cols in the footprint
-        int projectorCol = footprintCol + int(this.bCol);
-        if (projectorCol < projectorGridCols && projectorCol > 0) {//aka, if the footprint is even entirely on the projector screen grid space at all
-          float x = colToX(projectorCol);
-          tableScreen.fill(this.NSRcolor);
-          tableScreen.noStroke();
-          tableScreen.rect(x, y, tableScreen.width/projectorGridCols, tableScreen.width/projectorGridCols);
-          tableScreen.pushMatrix();
-          tableScreen.fill(255);
-          tableScreen.textAlign(CENTER);
-          tableScreen.textSize(32);
-          tableScreen.translate(this.textPos.x, this.textPos.y);
-          tableScreen.rotate(this.radianOrientation);
-          tableScreen.text(this.NSRorgName, 0, 0);
-          tableScreen.popMatrix();
-        }
-      }
-    }
-    this.textPos = new PVector(this.textPos.x*0.95 + this.textTarget.x*0.05, this.textPos.y*0.95 + this.textTarget.y*0.05);
-  }
-  tableScreen.popMatrix();
   }
 }

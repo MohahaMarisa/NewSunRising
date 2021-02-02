@@ -10,3 +10,5 @@ Additional Materials:
 
 
 ![puttingOnTilesInTheFinal](https://github.com/MohahaMarisa/NewSunRising/blob/master/putOnTiles.gif)
+![thePhysicalInstallation](https://github.com/MohahaMarisa/NewSunRising/blob/master/theInstallation.gif)
+![startTheExperienceByLocatingYourNeighborhood](https://github.com/MohahaMarisa/NewSunRising/blob/master/putLocator.gif)

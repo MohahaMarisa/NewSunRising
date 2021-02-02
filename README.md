@@ -7,4 +7,6 @@ New Sun Rising; [Scott Wolovich](scott@newsunrising.org), [Zaheen Hussain](zahee
 Additional Materials:
 - Usage Manual
 - [Process on Dropbox Paper](https://paper.dropbox.com/doc/Design-Capstone-New-Sun-Rising--AcTvKNCEwatKCbUQbwU3MPtlAQ-9XND6e844zzMwthJuVSAe)
+
+
 ![puttingOnTilesInTheFinal](https://github.com/MohahaMarisa/NewSunRising/blob/master/putOnTiles.gif)
